@@ -19,6 +19,6 @@ async def offer(message: types.Message):
 
 @dp.message_handler(state=FSMOffer.offer)
 async def load_offer(message: types.Message, state: FSMContext):
-    await send_offer_to_admin_chat(message.text)
+    await send_offer_to_admin_chat(message.text, str(message.from_id))
     await state.finish()
     await message.answer("Объявление отправлено на рассмотрение.")
