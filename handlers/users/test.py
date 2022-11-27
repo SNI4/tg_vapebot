@@ -27,7 +27,7 @@ async def load(message: types.Message, state: FSMContext):
         async with state.proxy() as data:
 
             group = types.MediaGroup()
-            async for photo_id in data['media']:
+            for photo_id in data['media']:
                 group.attach_photo(photo_id)
             await bot.send_media_group(message.chat.id, group)
 
