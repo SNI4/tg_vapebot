@@ -18,7 +18,7 @@ async def test(message: types.Message):
 async def load(message: types.Message, state=FSMTest):
     med = json.loads(message.as_json())
     media_list = []
-
+    # https://ru.stackoverflow.com/questions/1198860/Сохранение-всех-фото-из-альбома-без-message-handlercontent-types-photo/1202083#1202083
     if 'media_group_id' in med:
         for pic in med['photo']:
             pic_id = pic['file_id']
