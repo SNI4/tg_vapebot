@@ -2,10 +2,29 @@ import asyncio
 
 from loader import dp, bot
 from aiogram import types
+from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.dispatcher import FSMContext
+import json
 
+class FSMTest(StatesGroup):
+    media = State()
 
-@dp.message_handler(commands=['test'])
+@dp.message_handler(commands=['load'], state=None)
 async def test(message: types.Message):
-    mes = await message.answer('123')
-    await asyncio.sleep(2)
-    await bot.delete_message(message.from_id, mes.message_id)
+    await FSMTest.media.set()
+    await message.reply('wait for photo(s)...')
+
+@dp.message_handler(content_types=['any'], state=FSMTest)
+async def load(message: types.Message, state=FSMTest):
+    med = json.loads(message.as_json())
+    media_list = []
+
+    if 'media_group_id' in med:
+        for pic in med['photo']:
+            pic_id = pic['file_id']
+            media_list.append(pic_id) if pic_id not in media_list else ...
+            await message.reply(' ; '.join(media_list))
+            await state.finish()
+    else:
+        await message.reply(message.photo[-1].file_id)
+        await state.finish()

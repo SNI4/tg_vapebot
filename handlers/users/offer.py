@@ -8,7 +8,7 @@ from loader import dp, bot
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
 from utils.send_offer_to_admins import send_offer_to_admin_chat
-
+from keyboards.cancel_keyboard import ikb
 
 class FSMOffer(StatesGroup):
     offer = State()
@@ -22,19 +22,23 @@ async def offer(message: types.Message):
     try:
         if user_channel_status[70] != 'left':
             await FSMOffer.offer.set()
-            await message.answer("Отправьте мне ваше объявление.")
+            await message.answer("Отправьте мне ваше объявление.", reply_markup=ikb)
         else:
             await message.answer('Вы не подписаны на канал!\nt.me/brxlkpsd')
     except:
         if user_channel_status[60] != 'left':
             await FSMOffer.offer.set()
-            await message.answer("Отправьте мне ваше объявление.")
+            await message.answer("Отправьте мне ваше объявление.", reply_markup=ikb)
         else:
             await message.answer('Вы не подписаны на канал!\nt.me/brxlkpsd')
 
 
 @dp.message_handler(state=FSMOffer.offer)
 async def load_offer(message: types.Message, state: FSMContext):
-    await send_offer_to_admin_chat(message.text, str(message.from_id))
-    await state.finish()
-    await message.answer("Объявление отправлено на рассмотрение.")
+    if message.text == 'Отмена':
+        await message.reply('Successfuly canceled.')
+        await state.finish()
+    else:
+        await send_offer_to_admin_chat(message.text, str(message.from_id))
+        await state.finish()
+        await message.answer("Объявление отправлено на рассмотрение.")
