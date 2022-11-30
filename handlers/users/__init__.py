@@ -1,1 +1,1 @@
-from . import start, offer, test
+from . import start, offer
