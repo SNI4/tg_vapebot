@@ -1,1 +1,1 @@
-from . import config
+from . import config, dialogs_cfg

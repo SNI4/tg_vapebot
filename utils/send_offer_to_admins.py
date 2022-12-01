@@ -3,7 +3,7 @@ from aiogram import types
 from data import config
 from keyboards.admin_choose_keyboard import create_raw_vote_keyboard
 from loader import bot
-from utils.misc import get_json
+from utils.misc import json_worker
 
 
 async def send_offer_to_admin_chat(author_id: str) -> str:

@@ -1,6 +1,7 @@
 *.idea
 __pycache__
 data/__pycache__
+data/adverts
 handlers/__pycache__
 keyboards/__pycache__
 utils/__pycache__
